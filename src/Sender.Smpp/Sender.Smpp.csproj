@@ -1,0 +1,6 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <ItemGroup>
+    <ProjectReference Include="../Sender.Core/Sender.Core.csproj" />
+    <PackageReference Include="Inetlab.SMPP" />
+  </ItemGroup>
+</Project>

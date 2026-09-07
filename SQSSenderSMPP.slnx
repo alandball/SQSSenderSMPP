@@ -1,0 +1,14 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/Sender.Aws/Sender.Aws.csproj" />
+    <Project Path="src/Sender.Core/Sender.Core.csproj" />
+    <Project Path="src/Sender.Smpp/Sender.Smpp.csproj" />
+    <Project Path="src/Sender.Worker/Sender.Worker.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/Sender.Tests/Sender.Tests.csproj" />
+  </Folder>
+  <Folder Name="/tools/">
+    <Project Path="tools/Sender.Harness/Sender.Harness.csproj" />
+  </Folder>
+</Solution>

@@ -1,0 +1,6 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+  <ItemGroup>
+    <ProjectReference Include="../../src/Sender.Aws/Sender.Aws.csproj" />
+    <ProjectReference Include="../../src/Sender.Smpp/Sender.Smpp.csproj" />
+  </ItemGroup>
+</Project>
