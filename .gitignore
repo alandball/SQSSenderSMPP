@@ -1,0 +1,32 @@
+# Build and tooling
+**/bin/
+**/obj/
+.vs/
+.idea/
+*.user
+*.suo
+TestResults/
+artifacts/
+.local/
+.venv/
+__pycache__/
+*.log
+*.binlog
+coverage/
+# Machine configuration and secrets
+.env
+.env.*
+!.env.example
+**/appsettings.Local.json
+**/appsettings.Work.json
+NuGet.Work.Config
+*.license
+*.pfx
+*.p12
+*.pem
+*.key
+*.tfstate*
+.terraform/
+# OS files
+.DS_Store
+Thumbs.db

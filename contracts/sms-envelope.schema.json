@@ -1,0 +1,103 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/contracts/sms-envelope-v1.schema.json",
+  "title": "Outbound SMS envelope v1",
+  "description": "Source SQS payload. Producers must retain envelopeId and smsId across retries.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "envelopeId",
+    "createdAt",
+    "messages"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": "1.0"
+    },
+    "envelopeId": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Stable for the business envelope and unchanged on producer retry."
+    },
+    "tenantId": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 64,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]*$"
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "traceparent": {
+      "type": "string",
+      "maxLength": 55,
+      "description": "Optional W3C trace context; never use a phone number as trace identity."
+    },
+    "messages": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 50,
+      "items": {
+        "$ref": "#/$defs/message"
+      }
+    }
+  },
+  "$defs": {
+    "message": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "smsId",
+        "destination",
+        "source",
+        "text"
+      ],
+      "properties": {
+        "smsId": {
+          "type": "string",
+          "format": "uuid",
+          "description": "Stable per logical SMS and used as the ledger idempotency key."
+        },
+        "destination": {
+          "type": "string",
+          "pattern": "^\\+[1-9][0-9]{6,14}$",
+          "description": "Canonical E.164 MSISDN. It is personal data and must not be logged."
+        },
+        "source": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 21,
+          "description": "Sender value; provider profile applies TON/NPI and alphabet limits."
+        },
+        "text": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2000,
+          "description": "Sensitive content. The provider profile and segmenter determine encoding/PDU count."
+        },
+        "validUntil": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "requestDeliveryReceipt": {
+          "type": "boolean",
+          "default": true
+        },
+        "providerProfile": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]*$"
+        },
+        "clientReference": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64,
+          "description": "Business correlation only; not assumed to be carrier idempotency."
+        }
+      }
+    }
+  }
+}
