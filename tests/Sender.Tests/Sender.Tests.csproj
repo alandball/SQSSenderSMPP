@@ -6,6 +6,7 @@
   <ItemGroup>
     <ProjectReference Include="../../src/Sender.Aws/Sender.Aws.csproj" />
     <ProjectReference Include="../../src/Sender.Smpp/Sender.Smpp.csproj" />
+    <ProjectReference Include="../../tools/Sender.Harness/Sender.Harness.csproj" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" />
     <PackageReference Include="xunit" />
     <PackageReference Include="xunit.runner.visualstudio" PrivateAssets="all" />

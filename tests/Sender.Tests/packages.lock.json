@@ -103,6 +103,13 @@
       "sender.core": {
         "type": "Project"
       },
+      "sender.harness": {
+        "type": "Project",
+        "dependencies": {
+          "Sender.Aws": "[0.1.0, )",
+          "Sender.Smpp": "[0.1.0, )"
+        }
+      },
       "sender.smpp": {
         "type": "Project",
         "dependencies": {
