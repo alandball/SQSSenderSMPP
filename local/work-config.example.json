@@ -1,0 +1,35 @@
+{
+  "Aws": {
+    "Region": "REPLACE_WITH_WORK_REGION",
+    "QueueUrl": "https://REPLACE_WITH_EXISTING_SOURCE_QUEUE",
+    "LedgerTable": "REPLACE_WITH_EXISTING_LEDGER_TABLE",
+    "LocalEmulator": false
+  },
+  "Smpp": {
+    "Host": "REPLACE_WITH_CERTIFIED_SMSC_HOST",
+    "Port": 2775,
+    "SystemId": "REPLACE",
+    "PasswordFile": "/run/secrets/smpp-password",
+    "LicenseFile": "/run/secrets/Inetlab.SMPP.license",
+    "UseTls": true,
+    "InterfaceVersion": 52,
+    "Profile": "default",
+    "SourceTon": 5,
+    "SourceNpi": 0,
+    "DestinationTon": 1,
+    "DestinationNpi": 1,
+    "Concatenation": "UDH16bit",
+    "ResponseTimeoutSeconds": 10,
+    "EnquireLinkSeconds": 30
+  },
+  "Sender": {
+    "PerBindTps": 10,
+    "Window": 10,
+    "MaxActiveEnvelopes": 16,
+    "VisibilitySeconds": 120,
+    "HeartbeatSeconds": 30,
+    "LeaseSeconds": 60,
+    "ShutdownSeconds": 105
+  },
+  "Telemetry": { "EnableOtlp": true }
+}

@@ -1,0 +1,49 @@
+name: Build and test
+on:
+  workflow_dispatch:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  local-validation:
+    runs-on: windows-latest
+    timeout-minutes: 15
+    defaults:
+      run:
+        shell: pwsh
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-dotnet@26b0ec14cb23fa6904739307f278c14f94c95bf1 # v5
+        with:
+          global-json-file: global.json
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+        with:
+          python-version: '3.12'
+      - name: Restore locked dependencies
+        run: ./build.ps1 setup -PythonPath (Get-Command python).Source
+      - name: Format and unit checks
+        run: ./build.ps1 verify
+      - name: Queue, ledger and SMPP integration
+        run: ./build.ps1 integration
+      - name: Standalone worker smoke
+        run: ./build.ps1 smoke
+      - name: Publish application
+        run: ./build.ps1 publish
+      - name: Stop local harness
+        if: always()
+        run: ./build.ps1 integration-down
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        if: always()
+        with:
+          name: local-validation
+          path: |
+            artifacts/tests
+            artifacts/integration
+            artifacts/smoke.json
+          retention-days: 7
