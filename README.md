@@ -1,6 +1,29 @@
 # Enterprise SQS-to-SMPP sender
 
-This repository contains the architecture baseline for a highly available SMS submission service that consumes Amazon SQS envelopes containing up to 50 logical SMS messages and submits them to an SMSC over SMPP 3.4 from Amazon EKS.
+This repository implements a .NET 10 SMS submission worker that consumes Amazon SQS envelopes containing up to 50 logical SMS messages, uses a conditional DynamoDB ledger, and submits via one Inetlab SMPP transceiver session per process. Version **0.1.0** runs locally with emulated AWS services and an SMPP test server. The vendor's actual SMPP version is still unconfirmed; 3.4 is the local test profile.
+
+## Run locally
+
+The current PC is configured. From this directory:
+
+```powershell
+pwsh ./build.ps1 test
+pwsh ./build.ps1 integration
+pwsh ./build.ps1 smoke
+# Stop the local processes when finished:
+pwsh ./build.ps1 integration-down
+```
+
+For a new checkout, first run `pwsh ./build.ps1 setup -PythonPath <Python-3.12+-executable>`.
+
+- [Local setup and commands](docs/local-development.md)
+- [Implemented behavior and qualification gaps](docs/implementation.md)
+- [Work PC / existing build-deploy handoff](docs/work-pc-handoff.md)
+- [AI development workflow](docs/ai-workflow.md)
+- [Local validation evidence](docs/validation.md)
+- [Changelog](CHANGELOG.md)
+
+The architecture below remains the production target. Work SQS, JFrog, Argo, Helm and deployment configuration are external to this local environment.
 
 ## Executive decision
 
@@ -37,4 +60,4 @@ The initial engineering target is **3,000 logical SMS/s**, then multiplied by th
 
 ## Status
 
-This is an architecture and delivery blueprint, not a deployable sender implementation. Final replica counts and the production go/no-go remain gated by the SMSC interface profile and the qualification tests in this repository.
+The local sender and test harness are implemented. This implementation task has not pushed changes or modified work infrastructure. Production deployment and capacity commitments remain gated by the SMSC interface profile, commercial licensing, existing work configuration and the qualification tests in this repository.
